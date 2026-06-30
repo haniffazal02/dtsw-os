@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Recruitment Scoring</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Geist:wght@500&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#e2e2e8",
+                        "on-error-container": "#ffdad6",
+                        "on-primary-container": "#541f00",
+                        "on-primary-fixed-variant": "#7a3000",
+                        "secondary-container": "#feb700",
+                        "surface-variant": "#333539",
+                        "on-secondary-fixed-variant": "#5e4200",
+                        "on-secondary-fixed": "#271900",
+                        "on-tertiary-container": "#48007d",
+                        "outline": "#a78b7e",
+                        "surface-bright": "#37393e",
+                        "secondary-fixed-dim": "#ffba20",
+                        "surface-container-high": "#282a2e",
+                        "tertiary-fixed-dim": "#ddb7ff",
+                        "surface-container-lowest": "#0c0e12",
+                        "surface-container-highest": "#333539",
+                        "primary-fixed": "#ffdbcb",
+                        "error-container": "#93000a",
+                        "on-secondary-container": "#6b4b00",
+                        "on-surface-variant": "#e0c0b2",
+                        "primary": "#ffb693",
+                        "on-secondary": "#412d00",
+                        "inverse-surface": "#e2e2e8",
+                        "secondary": "#ffdb9d",
+                        "background": "#111317",
+                        "on-tertiary": "#490080",
+                        "outline-variant": "#584237",
+                        "primary-container": "#f37021",
+                        "inverse-on-surface": "#2f3035",
+                        "tertiary-fixed": "#f0dbff",
+                        "on-tertiary-fixed-variant": "#6900b3",
+                        "on-primary-fixed": "#341000",
+                        "tertiary-container": "#bb76ff",
+                        "surface": "#111317",
+                        "on-error": "#690005",
+                        "surface-tint": "#ffb693",
+                        "on-surface": "#e2e2e8",
+                        "on-primary": "#562000",
+                        "on-tertiary-fixed": "#2c0051",
+                        "primary-fixed-dim": "#ffb693",
+                        "error": "#ffb4ab",
+                        "inverse-primary": "#a04100",
+                        "tertiary": "#ddb7ff",
+                        "secondary-fixed": "#ffdea8",
+                        "surface-container": "#1e2024",
+                        "surface-container-low": "#1a1c20",
+                        "surface-dim": "#111317"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "gutter": "24px",
+                        "container-max": "1440px",
+                        "margin-mobile": "20px",
+                        "margin-desktop": "64px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "label-mono": ["Geist"],
+                        "headline-xl-mobile": ["Space Grotesk"],
+                        "headline-md": ["Space Grotesk"],
+                        "display-lg": ["Space Grotesk"],
+                        "headline-xl": ["Space Grotesk"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-mono": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-xl-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "display-lg": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "700"}],
+                        "headline-xl": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(26, 28, 32, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .bg-radial-gradient {
+            background: radial-gradient(circle at top right, rgba(243, 112, 33, 0.15), transparent 40%),
+                        radial-gradient(circle at bottom left, rgba(187, 118, 255, 0.1), transparent 40%);
+        }
+
+        .score-circle {
+            stroke-dasharray: 283;
+            stroke-dashoffset: 28; /* 90% score */
+            transition: stroke-dashoffset 1s ease-in-out;
+        }
+        
+        /* Custom scrollbar for Webkit */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex bg-radial-gradient overflow-hidden">
+<!-- SideNavBar -->
+<nav class="bg-surface-container-low/90 backdrop-blur-lg h-screen w-64 fixed left-0 top-0 z-40 border-r border-outline-variant/10 flex flex-col h-full p-4 gap-2 hidden md:flex">
+<div class="mb-8 px-4 mt-4">
+<h1 class="font-headline-md text-primary font-bold">DTSW OS</h1>
+<p class="font-label-mono text-on-surface-variant mt-1">Innovation Engine</p>
+</div>
+<button class="w-full bg-primary text-on-primary font-body-md font-semibold py-2 px-4 rounded-lg mb-6 hover:bg-primary/90 transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add</span>
+            New Project
+        </button>
+<div class="flex-1 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant/30 rounded-xl transition-all duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant/30 rounded-xl transition-all duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">rocket_launch</span>
+<span class="font-body-md">Projects</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-primary-container text-on-primary-container rounded-xl font-semibold transition-all duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+<span class="font-body-md">AI Assistant</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant/30 rounded-xl transition-all duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-body-md">Clubs</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant/30 rounded-xl transition-all duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">shield_person</span>
+<span class="font-body-md">Admin</span>
+</a>
+</div>
+<div class="mt-auto flex flex-col gap-1 border-t border-outline-variant/10 pt-4">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant/30 rounded-xl transition-all duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant/30 rounded-xl transition-all duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-body-md">Support</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col md:ml-64 h-screen overflow-hidden">
+<!-- TopAppBar (Mobile Only) -->
+<header class="bg-surface/80 backdrop-blur-xl border-b border-outline-variant/10 flex justify-between items-center w-full px-margin-mobile py-4 sticky top-0 z-50 md:hidden">
+<h1 class="font-headline-md text-primary font-bold">DTSW</h1>
+<div class="flex gap-4">
+<button class="text-on-surface"><span class="material-symbols-outlined">bolt</span></button>
+<button class="text-on-surface"><span class="material-symbols-outlined">notifications</span></button>
+</div>
+</header>
+<!-- Canvas -->
+<div class="flex-1 flex flex-col lg:flex-row overflow-hidden p-margin-mobile md:p-margin-desktop gap-gutter">
+<!-- Applicant List Section -->
+<section class="flex-1 flex flex-col min-w-0 overflow-hidden rounded-xl glass-panel relative group">
+<!-- Inner Glow on Hover -->
+<div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+<div class="p-6 border-b border-outline-variant/10 flex justify-between items-center bg-surface-container/50">
+<div>
+<h2 class="font-headline-md text-on-surface">Core Team Pipeline</h2>
+<p class="font-body-md text-on-surface-variant">42 Candidates pending review</p>
+</div>
+<div class="flex gap-2">
+<button class="p-2 rounded-lg bg-surface-variant text-on-surface hover:bg-surface-variant/80 transition-colors">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-variant text-on-surface hover:bg-surface-variant/80 transition-colors">
+<span class="material-symbols-outlined">sort</span>
+</button>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto p-2 space-y-2">
+<!-- Applicant Row 1 (Active) -->
+<div class="p-4 rounded-lg bg-primary-container/10 border border-primary/30 flex items-center justify-between cursor-pointer hover:bg-primary-container/20 transition-all duration-200">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-variant">
+<img alt="Applicant Avatar" class="w-full h-full object-cover" data-alt="A professional headshot of a young woman with a neutral expression, suitable for a tech or corporate profile." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmfxvU2_qbkpyPF-Ldq1lUzsysixs_rZQajrYGPI1WRzYNGT-YgYVMTqwQrXguLzpyFoHZpCfCzLlAdMN8eGTkBkdVzSHgg0CgVSi-xgDmJsqAJG7DdSyJoQExP-ZnqDH_16bD6EQKOCqVrHoAoh6Kpvh9ziqSkaEkA9aR5XgFxwfj5IdBvXuHaqKuzBmELdddtOs4SL36Gelm_u5jzlNfTzd8tq-z4sisls3yKqwbM6PqSSDMZWW64AqiyR3P2J9xQBxAGb7BaYY"/>
+</div>
+<div>
+<h3 class="font-body-lg font-semibold text-on-surface">Elena Rostova</h3>
+<div class="flex items-center gap-2 mt-1">
+<span class="font-label-mono bg-tertiary-container/20 text-tertiary px-2 py-0.5 rounded text-[10px]">Backend Engineer</span>
+<span class="font-label-mono text-on-surface-variant text-[10px]">Applied 2h ago</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-sm">psychology</span>
+<span class="font-headline-md">94</span>
+</div>
+<span class="font-label-mono text-on-surface-variant text-[10px] uppercase">AI Match</span>
+</div>
+</div>
+<!-- Applicant Row 2 -->
+<div class="p-4 rounded-lg hover:bg-surface-variant/30 border border-transparent hover:border-outline-variant/10 flex items-center justify-between cursor-pointer transition-all duration-200">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-variant">
+<img alt="Applicant Avatar" class="w-full h-full object-cover" data-alt="A professional headshot of a young man looking directly at the camera, wearing a dark shirt." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKPkxPDwfg7EgXRDM440A8P0tPGlsIwCVC3GeDv7SxvzEJfCCdR2t2te2UjOkvwpvMGrzHPrH8xyMs7QwXFZHQxBy4g7OJz4IcEuLWh_l-7ApjPmEC9zNt7eUXi8A_kBbISjbnDh37E3XnsV9lR-zdjtNp_nHUvU63_mB3etOb8MwEuui4wXbpsrsrnFSlhLYdwOt17N4lMkGv_JVQ-lLrS7hceTpStK_nUS_ULyBrwmM7shZ3-7Sgok5JQNpYeN543p1_fSMXs1o"/>
+</div>
+<div>
+<h3 class="font-body-lg font-semibold text-on-surface">Marcus Chen</h3>
+<div class="flex items-center gap-2 mt-1">
+<span class="font-label-mono bg-secondary-container/20 text-secondary px-2 py-0.5 rounded text-[10px]">UI/UX Designer</span>
+<span class="font-label-mono text-on-surface-variant text-[10px]">Applied 5h ago</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<div class="flex items-center gap-1 text-on-surface">
+<span class="material-symbols-outlined text-sm text-on-surface-variant">psychology</span>
+<span class="font-headline-md">88</span>
+</div>
+<span class="font-label-mono text-on-surface-variant text-[10px] uppercase">AI Match</span>
+</div>
+</div>
+<!-- Applicant Row 3 -->
+<div class="p-4 rounded-lg hover:bg-surface-variant/30 border border-transparent hover:border-outline-variant/10 flex items-center justify-between cursor-pointer transition-all duration-200">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-variant flex items-center justify-center text-on-surface-variant font-headline-md">
+                                SJ
+                            </div>
+<div>
+<h3 class="font-body-lg font-semibold text-on-surface">Sarah Jenkins</h3>
+<div class="flex items-center gap-2 mt-1">
+<span class="font-label-mono bg-primary-container/20 text-primary px-2 py-0.5 rounded text-[10px]">Product Manager</span>
+<span class="font-label-mono text-on-surface-variant text-[10px]">Applied 1d ago</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<div class="flex items-center gap-1 text-on-surface">
+<span class="material-symbols-outlined text-sm text-on-surface-variant">psychology</span>
+<span class="font-headline-md">76</span>
+</div>
+<span class="font-label-mono text-on-surface-variant text-[10px] uppercase">AI Match</span>
+</div>
+</div>
+<!-- Applicant Row 4 -->
+<div class="p-4 rounded-lg hover:bg-surface-variant/30 border border-transparent hover:border-outline-variant/10 flex items-center justify-between cursor-pointer transition-all duration-200">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-variant flex items-center justify-center text-on-surface-variant font-headline-md">
+                                DK
+                            </div>
+<div>
+<h3 class="font-body-lg font-semibold text-on-surface">David Kim</h3>
+<div class="flex items-center gap-2 mt-1">
+<span class="font-label-mono bg-tertiary-container/20 text-tertiary px-2 py-0.5 rounded text-[10px]">Backend Engineer</span>
+<span class="font-label-mono text-on-surface-variant text-[10px]">Applied 2d ago</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<div class="flex items-center gap-1 text-error">
+<span class="material-symbols-outlined text-sm">psychology</span>
+<span class="font-headline-md">45</span>
+</div>
+<span class="font-label-mono text-on-surface-variant text-[10px] uppercase">AI Match</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Detailed Score Breakdown Sidebar -->
+<aside class="w-full lg:w-[400px] flex flex-col gap-6 overflow-y-auto hide-scrollbar">
+<!-- Main Profile & Overall Score Card -->
+<div class="glass-panel rounded-xl p-6 relative overflow-hidden group">
+<div class="absolute -right-10 -top-10 w-40 h-40 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-colors duration-700"></div>
+<div class="flex items-start justify-between mb-6 relative z-10">
+<div>
+<h2 class="font-headline-xl text-on-surface">Elena Rostova</h2>
+<p class="font-body-md text-primary mt-1">Backend Engineer</p>
+</div>
+<div class="w-16 h-16 rounded-full overflow-hidden border-2 border-primary/30">
+<img alt="Applicant Avatar" class="w-full h-full object-cover" data-alt="A professional headshot of a young woman with a neutral expression, suitable for a tech or corporate profile." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQUxM-JwUb5Ds66YV3tShMoYeZogwrd1Y6JYhKvc3hYL9T8CxGwOSDUK3O4XsgrCGr0kcNKikidX9x8kKO-yuKwScMrVwibB0BHGYnXGmY9xweMbzClJqj7EfxbjQn6ZcI-X4Mc_GUSbZYf21702dybdzn7LBMRqIAyoudAEbymj2peVQToI1u2oP4EtvFmnZPglWhOgkQTYtct7RoDBzNODLnOspOydbcUFwqAIIgXxEqpD1DhbJ2mRUxmcIypu9hpc7IzQBwVlU"/>
+</div>
+</div>
+<div class="flex items-center justify-center py-4 relative z-10">
+<div class="relative w-32 h-32 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 100 100">
+<circle class="text-surface-variant" cx="50" cy="50" fill="none" r="45" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-primary score-circle" cx="50" cy="50" fill="none" r="45" stroke="currentColor" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-display-lg text-primary text-4xl">94</span>
+</div>
+</div>
+</div>
+</div>
+<!-- AI Insights Bento Grid -->
+<div class="grid grid-cols-1 gap-4">
+<!-- Insight Card -->
+<div class="glass-panel rounded-xl p-5 border-l-2 border-l-secondary">
+<div class="flex items-center gap-2 mb-2 text-secondary">
+<span class="material-symbols-outlined text-sm">auto_awesome</span>
+<span class="font-label-mono uppercase tracking-wider">AI Summary</span>
+</div>
+<p class="font-body-md text-on-surface leading-relaxed">
+                            Top 5% candidate for the AI Club. Exhibits exceptional problem-solving logic in backend architecture. Strong match for industry readiness based on GitHub repository analysis.
+                        </p>
+</div>
+<!-- Breakdown Metrics -->
+<div class="glass-panel rounded-xl p-5 space-y-5">
+<h3 class="font-label-mono uppercase text-on-surface-variant tracking-wider mb-4">Competency Breakdown</h3>
+<!-- Metric 1 -->
+<div>
+<div class="flex justify-between items-end mb-1">
+<span class="font-body-md text-on-surface">Technical Skill</span>
+<span class="font-label-mono text-tertiary">98/100</span>
+</div>
+<div class="h-2 w-full bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-tertiary rounded-full w-[98%]"></div>
+</div>
+</div>
+<!-- Metric 2 -->
+<div>
+<div class="flex justify-between items-end mb-1">
+<span class="font-body-md text-on-surface">Innovation Mindset</span>
+<span class="font-label-mono text-primary">92/100</span>
+</div>
+<div class="h-2 w-full bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full w-[92%]"></div>
+</div>
+</div>
+<!-- Metric 3 -->
+<div>
+<div class="flex justify-between items-end mb-1">
+<span class="font-body-md text-on-surface">Execution History</span>
+<span class="font-label-mono text-secondary">85/100</span>
+</div>
+<div class="h-2 w-full bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-secondary rounded-full w-[85%]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="flex gap-3 mt-auto pt-4">
+<button class="flex-1 bg-surface-variant/50 border border-error/50 text-error hover:bg-error/10 hover:border-error font-body-md py-3 rounded-lg transition-all duration-200 active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">close</span> Decline
+                    </button>
+<button class="flex-1 bg-surface-variant/50 border border-secondary/50 text-secondary hover:bg-secondary/10 hover:border-secondary font-body-md py-3 rounded-lg transition-all duration-200 active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">calendar_month</span> Interview
+                    </button>
+<button class="flex-1 bg-primary text-on-primary font-body-md font-semibold py-3 rounded-lg hover:bg-primary/90 transition-all duration-200 active:scale-95 shadow-[0_0_15px_rgba(243,112,33,0.3)] flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">check</span> Accept
+                    </button>
+</div>
+</aside>
+</div>
+</main>
+</body></html>

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DTSW Automation Visualizer</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#e2e2e8",
+                        "on-error-container": "#ffdad6",
+                        "on-primary-container": "#541f00",
+                        "on-primary-fixed-variant": "#7a3000",
+                        "secondary-container": "#feb700",
+                        "surface-variant": "#333539",
+                        "on-secondary-fixed-variant": "#5e4200",
+                        "on-secondary-fixed": "#271900",
+                        "on-tertiary-container": "#48007d",
+                        "outline": "#a78b7e",
+                        "surface-bright": "#37393e",
+                        "secondary-fixed-dim": "#ffba20",
+                        "surface-container-high": "#282a2e",
+                        "tertiary-fixed-dim": "#ddb7ff",
+                        "surface-container-lowest": "#0c0e12",
+                        "surface-container-highest": "#333539",
+                        "primary-fixed": "#ffdbcb",
+                        "error-container": "#93000a",
+                        "on-secondary-container": "#6b4b00",
+                        "on-surface-variant": "#e0c0b2",
+                        "primary": "#ffb693",
+                        "on-secondary": "#412d00",
+                        "inverse-surface": "#e2e2e8",
+                        "secondary": "#ffdb9d",
+                        "background": "#111317",
+                        "on-tertiary": "#490080",
+                        "outline-variant": "#584237",
+                        "primary-container": "#f37021",
+                        "inverse-on-surface": "#2f3035",
+                        "tertiary-fixed": "#f0dbff",
+                        "on-tertiary-fixed-variant": "#6900b3",
+                        "on-primary-fixed": "#341000",
+                        "tertiary-container": "#bb76ff",
+                        "surface": "#111317",
+                        "on-error": "#690005",
+                        "surface-tint": "#ffb693",
+                        "on-surface": "#e2e2e8",
+                        "on-primary": "#562000",
+                        "on-tertiary-fixed": "#2c0051",
+                        "primary-fixed-dim": "#ffb693",
+                        "error": "#ffb4ab",
+                        "inverse-primary": "#a04100",
+                        "tertiary": "#ddb7ff",
+                        "secondary-fixed": "#ffdea8",
+                        "surface-container": "#1e2024",
+                        "surface-container-low": "#1a1c20",
+                        "surface-dim": "#111317"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "gutter": "24px",
+                        "container-max": "1440px",
+                        "margin-mobile": "20px",
+                        "margin-desktop": "64px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "label-mono": ["Geist"],
+                        "headline-xl-mobile": ["Space Grotesk"],
+                        "headline-md": ["Space Grotesk"],
+                        "display-lg": ["Space Grotesk"],
+                        "headline-xl": ["Space Grotesk"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-mono": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-xl-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "display-lg": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "700"}],
+                        "headline-xl": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .dot-pattern {
+            background-image: radial-gradient(theme('colors.outline-variant' / 20%) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        .glow-line {
+            box-shadow: 0 0 10px theme('colors.primary'), 0 0 20px theme('colors.primary-container');
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md overflow-x-hidden min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="bg-surface/80 backdrop-blur-xl w-full top-0 sticky z-50 border-b border-outline-variant/10 shadow-[0_4px_30px_rgba(0,0,0,0.1)] transition-all duration-200 ease-in-out">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4">
+<div class="flex items-center gap-8">
+<span class="font-display-lg text-headline-md tracking-tighter text-on-surface">DTSW</span>
+<nav class="hidden md:flex gap-6 font-body-lg text-body-lg">
+<a class="text-on-surface-variant hover:text-on-surface transition-colors" href="#">Ecosystem</a>
+<!-- Active State Applied Here -->
+<a class="text-primary font-bold border-b-2 border-primary pb-1" href="#">Execution</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors" href="#">Events</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors" href="#">Hub</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined hover:bg-surface-variant/20 rounded-lg p-2 cursor-pointer transition-colors" data-icon="search">search</span>
+</div>
+<button class="bg-primary hover:bg-primary-container text-on-primary font-semibold py-2 px-4 rounded-lg transition-all duration-200 ease-in-out active:scale-95 shadow-md shadow-primary/20">
+                    Launch OS
+                </button>
+<div class="flex gap-2">
+<span class="material-symbols-outlined hover:bg-surface-variant/20 rounded-lg p-2 cursor-pointer text-on-surface transition-colors" data-icon="bolt">bolt</span>
+<span class="material-symbols-outlined hover:bg-surface-variant/20 rounded-lg p-2 cursor-pointer text-on-surface transition-colors" data-icon="notifications">notifications</span>
+</div>
+<div class="w-8 h-8 rounded-full bg-surface-container-high border border-outline-variant/30 flex items-center justify-center overflow-hidden">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">person</span>
+</div>
+</div>
+</div>
+</header>
+<div class="flex flex-1 relative w-full max-w-container-max mx-auto">
+<!-- SideNavBar -->
+<aside class="hidden md:flex flex-col h-[calc(100vh-73px)] w-64 fixed left-0 top-[73px] z-40 bg-surface-container-low/90 backdrop-blur-lg border-r border-outline-variant/10 p-4 gap-2 transition-transform duration-200 hover:translate-x-1 overflow-y-auto">
+<div class="mb-6 px-2">
+<div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-tertiary flex items-center justify-center mb-3">
+<span class="material-symbols-outlined text-on-primary">token</span>
+</div>
+<h2 class="font-headline-md text-primary font-bold">DTSW OS</h2>
+<p class="font-label-mono text-label-mono text-on-surface-variant">Innovation Engine</p>
+</div>
+<button class="w-full flex items-center justify-center gap-2 bg-surface-variant hover:bg-surface-container-highest text-on-surface border border-outline-variant/30 py-2 rounded-xl mb-4 transition-all active:scale-95">
+<span class="material-symbols-outlined text-sm">add</span>
+                New Project
+            </button>
+<nav class="flex-1 flex flex-col gap-1 font-body-md text-body-md">
+<!-- Active State (Semantically fitting for a visualizer sub-view) -->
+<a class="flex items-center gap-3 px-3 py-2 bg-primary-container text-on-primary-container rounded-xl font-semibold" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                    Dashboard
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-variant/30 rounded-xl transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="rocket_launch">rocket_launch</span>
+                    Projects
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-variant/30 rounded-xl transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="smart_toy">smart_toy</span>
+                    AI Assistant
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-variant/30 rounded-xl transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+                    Clubs
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-variant/30 rounded-xl transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="shield_person">shield_person</span>
+                    Admin
+                </a>
+</nav>
+<div class="mt-auto border-t border-outline-variant/20 pt-4 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-variant/30 rounded-xl transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                    Settings
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-variant/30 rounded-xl transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+                    Support
+                </a>
+</div>
+</aside>
+<!-- Main Content (Canvas Area) -->
+<main class="flex-1 md:ml-64 p-6 md:p-8 flex flex-col gap-6 w-full">
+<!-- Header & Metrics -->
+<div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 mb-2">
+<div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface mb-2">Active Pipeline</h1>
+<p class="text-on-surface-variant font-body-md">Innovation workflow execution visualizer.</p>
+</div>
+<div class="flex flex-wrap gap-4 w-full lg:w-auto">
+<!-- Metric Card -->
+<div class="bg-surface-container-high/80 backdrop-blur-md border border-outline-variant/20 rounded-xl p-4 flex-1 lg:flex-none min-w-[140px]">
+<p class="font-label-mono text-label-mono text-on-surface-variant mb-1 uppercase tracking-wider">Active Executions</p>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-md text-headline-md text-primary">1,204</span>
+<span class="text-secondary text-sm flex items-center"><span class="material-symbols-outlined text-[16px]">trending_up</span></span>
+</div>
+</div>
+<!-- Metric Card -->
+<div class="bg-surface-container-high/80 backdrop-blur-md border border-outline-variant/20 rounded-xl p-4 flex-1 lg:flex-none min-w-[140px]">
+<p class="font-label-mono text-label-mono text-on-surface-variant mb-1 uppercase tracking-wider">Success Rate</p>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-md text-headline-md text-on-surface">99.8%</span>
+</div>
+</div>
+<!-- Metric Card -->
+<div class="bg-surface-container-high/80 backdrop-blur-md border border-outline-variant/20 rounded-xl p-4 flex-1 lg:flex-none min-w-[140px]">
+<p class="font-label-mono text-label-mono text-on-surface-variant mb-1 uppercase tracking-wider">AI Agent Load</p>
+<div class="flex items-center gap-3">
+<span class="font-headline-md text-headline-md text-tertiary">42%</span>
+<div class="w-full bg-surface-container-lowest h-2 rounded-full overflow-hidden">
+<div class="bg-tertiary h-full w-[42%] rounded-full shadow-[0_0_8px_theme('colors.tertiary')]"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Workflow Canvas Container -->
+<div class="relative w-full h-[500px] bg-surface-container-lowest rounded-xl border border-outline-variant/20 overflow-hidden dot-pattern flex items-center justify-center shadow-inner">
+<!-- Simulated Nodes (Horizontal Flow) -->
+<div class="flex items-center gap-12 relative z-10 px-8">
+<!-- Node 1 -->
+<div class="bg-surface/90 backdrop-blur-md border border-outline-variant/30 rounded-xl p-5 w-48 shadow-[0_8px_32px_rgba(0,0,0,0.4)] flex flex-col items-center text-center relative group hover:border-primary/50 transition-colors">
+<div class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center mb-3 border border-outline-variant/20 group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-on-surface" data-icon="input">input</span>
+</div>
+<h3 class="font-body-md font-semibold text-on-surface mb-1">New Application</h3>
+<p class="font-label-mono text-label-mono text-on-surface-variant">Webhook Trigger</p>
+<!-- Output Connector Anchor -->
+<div class="absolute -right-3 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-primary ring-4 ring-background z-20"></div>
+</div>
+<!-- Connecting Line -->
+<div class="h-1 w-12 bg-primary/20 relative">
+<div class="absolute inset-0 bg-primary glow-line w-full animate-pulse"></div>
+</div>
+<!-- Node 2 -->
+<div class="bg-surface/90 backdrop-blur-md border border-primary/50 rounded-xl p-5 w-48 shadow-[0_8px_32px_rgba(0,0,0,0.4),0_0_20px_theme('colors.primary'/10)] flex flex-col items-center text-center relative">
+<div class="absolute -left-3 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-surface-container-highest ring-2 ring-primary z-20"></div>
+<div class="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center mb-3 border border-primary/30">
+<span class="material-symbols-outlined text-primary" data-icon="smart_toy">smart_toy</span>
+</div>
+<h3 class="font-body-md font-semibold text-on-surface mb-1">AI Scoring</h3>
+<p class="font-label-mono text-label-mono text-primary animate-pulse">Processing...</p>
+<div class="absolute -right-3 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-surface-container-highest ring-2 ring-outline-variant z-20"></div>
+</div>
+<!-- Connecting Line -->
+<div class="h-1 w-12 bg-outline-variant/30"></div>
+<!-- Node 3 -->
+<div class="bg-surface/90 backdrop-blur-md border border-outline-variant/30 rounded-xl p-5 w-48 shadow-[0_8px_32px_rgba(0,0,0,0.4)] flex flex-col items-center text-center relative opacity-70">
+<div class="absolute -left-3 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-surface-container-highest ring-2 ring-outline-variant z-20"></div>
+<div class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center mb-3 border border-outline-variant/20">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="chat">chat</span>
+</div>
+<h3 class="font-body-md font-semibold text-on-surface mb-1">Slack Notify</h3>
+<p class="font-label-mono text-label-mono text-on-surface-variant">Awaiting Input</p>
+</div>
+</div>
+<!-- Abstract Decorative Gradients -->
+<div class="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20">
+<div class="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-primary/30 rounded-full blur-[120px]"></div>
+<div class="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] bg-tertiary/20 rounded-full blur-[100px]"></div>
+</div>
+</div>
+<!-- Execution Logs -->
+<div class="bg-surface-container-low/80 backdrop-blur-xl border border-outline-variant/20 rounded-xl overflow-hidden flex flex-col h-64 shadow-lg">
+<div class="bg-surface px-4 py-3 border-b border-outline-variant/10 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">terminal</span>
+<h3 class="font-label-mono text-label-mono text-on-surface uppercase tracking-wider">Execution Terminal</h3>
+</div>
+<div class="flex gap-1">
+<div class="w-3 h-3 rounded-full bg-surface-container-highest"></div>
+<div class="w-3 h-3 rounded-full bg-surface-container-highest"></div>
+<div class="w-3 h-3 rounded-full bg-surface-container-highest"></div>
+</div>
+</div>
+<div class="flex-1 p-4 font-label-mono text-[13px] text-on-surface-variant overflow-y-auto space-y-2 font-mono leading-relaxed bg-[#0a0a0c]">
+<div class="flex gap-4">
+<span class="text-outline">10:42:01</span>
+<span class="text-tertiary">[SYSTEM]</span>
+<span>Pipeline initialized: ID-8894-ALPHA</span>
+</div>
+<div class="flex gap-4">
+<span class="text-outline">10:42:05</span>
+<span class="text-primary">[NODE: WEBHOOK]</span>
+<span>Payload received. Bytes: 2048. Parsing JSON...</span>
+</div>
+<div class="flex gap-4">
+<span class="text-outline">10:42:06</span>
+<span class="text-primary">[NODE: WEBHOOK]</span>
+<span class="text-secondary">SUCCESS. Forwarding to AI Scoring module.</span>
+</div>
+<div class="flex gap-4">
+<span class="text-outline">10:42:06</span>
+<span class="text-tertiary-container">[NODE: AI_SCORE]</span>
+<span>Allocating agent thread. Loading context matrix...</span>
+</div>
+<div class="flex gap-4">
+<span class="text-outline">10:42:12</span>
+<span class="text-tertiary-container">[NODE: AI_SCORE]</span>
+<span class="text-on-surface flex items-center gap-2">Analyzing applicant sentiment <span class="animate-pulse">...</span></span>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

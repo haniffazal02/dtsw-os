@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DTSW - Login Gateway</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&amp;family=Inter:wght@400;600&amp;family=Geist:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#e2e2e8",
+                        "on-error-container": "#ffdad6",
+                        "on-primary-container": "#541f00",
+                        "on-primary-fixed-variant": "#7a3000",
+                        "secondary-container": "#feb700",
+                        "surface-variant": "#333539",
+                        "on-secondary-fixed-variant": "#5e4200",
+                        "on-secondary-fixed": "#271900",
+                        "on-tertiary-container": "#48007d",
+                        "outline": "#a78b7e",
+                        "surface-bright": "#37393e",
+                        "secondary-fixed-dim": "#ffba20",
+                        "surface-container-high": "#282a2e",
+                        "tertiary-fixed-dim": "#ddb7ff",
+                        "surface-container-lowest": "#0c0e12",
+                        "surface-container-highest": "#333539",
+                        "primary-fixed": "#ffdbcb",
+                        "error-container": "#93000a",
+                        "on-secondary-container": "#6b4b00",
+                        "on-surface-variant": "#e0c0b2",
+                        "primary": "#ffb693",
+                        "on-secondary": "#412d00",
+                        "inverse-surface": "#e2e2e8",
+                        "secondary": "#ffdb9d",
+                        "background": "#111317",
+                        "on-tertiary": "#490080",
+                        "outline-variant": "#584237",
+                        "primary-container": "#f37021",
+                        "inverse-on-surface": "#2f3035",
+                        "tertiary-fixed": "#f0dbff",
+                        "on-tertiary-fixed-variant": "#6900b3",
+                        "on-primary-fixed": "#341000",
+                        "tertiary-container": "#bb76ff",
+                        "surface": "#111317",
+                        "on-error": "#690005",
+                        "surface-tint": "#ffb693",
+                        "on-surface": "#e2e2e8",
+                        "on-primary": "#562000",
+                        "on-tertiary-fixed": "#2c0051",
+                        "primary-fixed-dim": "#ffb693",
+                        "error": "#ffb4ab",
+                        "inverse-primary": "#a04100",
+                        "tertiary": "#ddb7ff",
+                        "secondary-fixed": "#ffdea8",
+                        "surface-container": "#1e2024",
+                        "surface-container-low": "#1a1c20",
+                        "surface-dim": "#111317"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "gutter": "24px",
+                        "container-max": "1440px",
+                        "margin-mobile": "20px",
+                        "margin-desktop": "64px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "label-mono": ["Geist"],
+                        "headline-xl-mobile": ["Space Grotesk"],
+                        "headline-md": ["Space Grotesk"],
+                        "display-lg": ["Space Grotesk"],
+                        "headline-xl": ["Space Grotesk"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-mono": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-xl-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "display-lg": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "700"}],
+                        "headline-xl": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .grid-bg {
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .glow-orange { box-shadow: 0 0 40px -10px rgba(243, 112, 33, 0.3); }
+        .glow-purple { box-shadow: 0 0 40px -10px rgba(187, 118, 255, 0.3); }
+        .glow-cyan { box-shadow: 0 0 40px -10px rgba(0, 255, 255, 0.2); }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col relative overflow-hidden font-body-md">
+<!-- Atmospheric Background -->
+<div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+<div class="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] rounded-full bg-primary/5 blur-[120px]"></div>
+<div class="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-tertiary-container/10 blur-[100px]"></div>
+<div class="absolute inset-0 grid-bg opacity-30"></div>
+</div>
+<!-- Main Content Canvas (No Nav/Footer for Login) -->
+<main class="flex-grow flex flex-col justify-center items-center relative z-10 px-margin-mobile md:px-margin-desktop py-12">
+<div class="text-center mb-16 max-w-2xl mx-auto">
+<h1 class="font-display-lg text-display-lg text-on-surface mb-4 tracking-tighter">Gateway</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Select your access vector to enter the Innovation Engine.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 w-full max-w-container-max mx-auto">
+<!-- Student Explorer -->
+<button class="group flex flex-col text-left bg-surface/80 backdrop-blur-xl border border-outline-variant/20 rounded-xl p-8 hover:-translate-y-2 transition-all duration-300 ease-in-out hover:border-primary/50 glow-orange">
+<div class="w-16 h-16 rounded-full bg-primary-container/10 flex items-center justify-center mb-6 border border-primary/20 group-hover:bg-primary-container/20 transition-colors">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">explore</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-2">Student Explorer</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8 flex-grow">Access your personal command center, track projects, and connect with clubs.</p>
+<div class="flex items-center text-primary font-semibold mt-auto group-hover:translate-x-2 transition-transform">
+<span>Initiate Sequence</span>
+<span class="material-symbols-outlined ml-2">arrow_forward</span>
+</div>
+</button>
+<!-- Execution Lead -->
+<button class="group flex flex-col text-left bg-surface/80 backdrop-blur-xl border border-outline-variant/20 rounded-xl p-8 hover:-translate-y-2 transition-all duration-300 ease-in-out hover:border-tertiary-container/50 glow-purple">
+<div class="w-16 h-16 rounded-full bg-tertiary-container/10 flex items-center justify-center mb-6 border border-tertiary-container/20 group-hover:bg-tertiary-container/20 transition-colors">
+<span class="material-symbols-outlined text-tertiary-container text-3xl" style="font-variation-settings: 'FILL' 1;">admin_panel_settings</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-2">Execution Lead</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8 flex-grow">Secure portal for Core Team to manage operations, orchestrate events, and monitor OS health.</p>
+<div class="flex items-center text-tertiary-container font-semibold mt-auto group-hover:translate-x-2 transition-transform">
+<span>Authenticate</span>
+<span class="material-symbols-outlined ml-2">arrow_forward</span>
+</div>
+</button>
+<!-- Expert Mentor -->
+<button class="group flex flex-col text-left bg-surface/80 backdrop-blur-xl border border-outline-variant/20 rounded-xl p-8 hover:-translate-y-2 transition-all duration-300 ease-in-out hover:border-cyan-500/50 glow-cyan">
+<div class="w-16 h-16 rounded-full bg-cyan-500/10 flex items-center justify-center mb-6 border border-cyan-500/20 group-hover:bg-cyan-500/20 transition-colors">
+<span class="material-symbols-outlined text-cyan-400 text-3xl" style="font-variation-settings: 'FILL' 1;">psychology</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-2">Expert Mentor</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8 flex-grow">Industry faculty access to review projects, provide guidance, and evaluate ecosystem metrics.</p>
+<div class="flex items-center text-cyan-400 font-semibold mt-auto group-hover:translate-x-2 transition-transform">
+<span>Connect</span>
+<span class="material-symbols-outlined ml-2">arrow_forward</span>
+</div>
+</button>
+</div>
+<div class="mt-16 text-center">
+<p class="font-label-mono text-label-mono text-on-surface-variant/50">SYSTEM VERSION 2.0.4 // DTSW OS</p>
+</div>
+</main>
+</body></html>
